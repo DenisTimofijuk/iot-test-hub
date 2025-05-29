@@ -1,7 +1,7 @@
 {
-  "name": "monorepo-template",
+  "name": "iot-test-hub",
   "version": "1.0.0",
-  "description": "This is a full-stack monorepo template using Vite + React on the frontend and Express + TypeScript on the backend.",
+  "description": "simulates a telematics device testing system.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
