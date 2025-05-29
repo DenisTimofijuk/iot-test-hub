@@ -1,5 +1,6 @@
-# use workspace flags:
-Run commands from the root directory
+## Use workspace flags:
+
+Run commands from the root directory:
 ```
 npm install pg --workspace=backend/api
 ```
@@ -13,6 +14,6 @@ npm run dev
 
 Or run them separately:
 ```
-npm run start:api       # Starts backend from root
-npm run start:frontend  # Starts frontend from root
+npm run dev:api       # Starts backend from root
+npm run dev:frontend  # Starts frontend from root
 ```
