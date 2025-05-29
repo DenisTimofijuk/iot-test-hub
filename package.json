@@ -1,0 +1,24 @@
+{
+  "name": "monorepo-template",
+  "version": "1.0.0",
+  "description": "This is a full-stack monorepo template using Vite + React on the frontend and Express + TypeScript on the backend.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:api": "npm run start --workspace=backend/api",
+    "start:frontend": "npm run start --workspace=frontend",
+    "dev:api": "npm run dev --workspace=backend/api",
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "dev": "concurrently \"npm run dev --workspace=backend/api\" \"npm run dev --workspace=frontend\""
+  },
+  "author": "Denis",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend/api"
+  ],
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

@@ -1,0 +1,158 @@
+import { Request, Response } from "express";
+import { database } from "../models/mongodb";
+import { ObjectId } from "mongodb";
+
+export const getAllDocuments = async (req: Request, res: Response) => {
+  try {
+    const { collection } = req.params;
+    const { limit = 50, skip = 0, sort } = req.query;
+    const limitNum = parseInt(limit?.toString() ?? "50");
+    const skipNum = parseInt(skip?.toString() ?? "0");
+
+    const coll = database.collection(collection);
+    let query = coll.find({});
+
+    // Apply sorting if provided
+    if (sort && typeof sort === "string") {
+      const sortObj = JSON.parse(sort);
+      query = query.sort(sortObj);
+    }
+
+    const documents = await query.skip(skipNum).limit(limitNum).toArray();
+
+    const total = await coll.countDocuments({});
+
+    res.json({
+      success: true,
+      data: documents,
+      total,
+      count: documents.length,
+    });
+  } catch (error: any) {
+    console.error("Error fetching documents:", error);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+export const getDocumentByID = async (req: Request, res: Response) => {
+  try {
+    const { collection, id } = req.params;
+    const coll = database.collection(collection);
+
+    const document = await coll.findOne({ _id: new ObjectId(id) });
+
+    if (!document) {
+      res.status(404).json({
+        success: false,
+        error: "Document not found",
+      });
+
+      return;
+    }
+
+    res.json({
+      success: true,
+      data: document,
+    });
+  } catch (error: any) {
+    console.error("Error fetching document:", error);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+export const createNewDocument = async (req: Request, res: Response) => {
+  try {
+    const { collection } = req.params;
+    const document = req.body;
+
+    // Add timestamp
+    document.createdAt = new Date();
+
+    const coll = database.collection(collection);
+    const result = await coll.insertOne(document);
+
+    res.status(201).json({
+      success: true,
+      data: {
+        _id: result.insertedId,
+        ...document,
+      },
+    });
+  } catch (error: any) {
+    console.error("Error creating document:", error);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+export const updateDocument = async (req: Request, res: Response) => {
+  try {
+    const { collection, id } = req.params;
+    const updates = req.body;
+
+    // Add update timestamp
+    updates.updatedAt = new Date();
+
+    const coll = database.collection(collection);
+    const result = await coll.updateOne(
+      { _id: new ObjectId(id) },
+      { $set: updates }
+    );
+
+    if (result.matchedCount === 0) {
+      res.status(404).json({
+        success: false,
+        error: "Document not found",
+      });
+      return;
+    }
+
+    res.json({
+      success: true,
+      message: "Document updated successfully",
+      modifiedCount: result.modifiedCount,
+    });
+  } catch (error: any) {
+    console.error("Error updating document:", error);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
+
+export const deleteDocument = async (req: Request, res: Response) => {
+  try {
+    const { collection, id } = req.params;
+    const coll = database.collection(collection);
+
+    const result = await coll.deleteOne({ _id: new ObjectId(id) });
+
+    if (result.deletedCount === 0) {
+      res.status(404).json({
+        success: false,
+        error: "Document not found",
+      });
+      return;
+    }
+
+    res.json({
+      success: true,
+      message: "Document deleted successfully",
+    });
+  } catch (error: any) {
+    console.error("Error deleting document:", error);
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};
