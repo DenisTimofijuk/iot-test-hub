@@ -9,6 +9,7 @@
     "start:frontend": "npm run start --workspace=frontend",
     "dev:api": "npm run dev --workspace=backend/api",
     "dev:frontend": "npm run dev --workspace=frontend",
+    "dev:arduino": "npm run dev --workspace=arduino",
     "dev": "concurrently \"npm run dev --workspace=backend/api\" \"npm run dev --workspace=frontend\""
   },
   "author": "Denis",
@@ -16,7 +17,8 @@
   "private": true,
   "workspaces": [
     "frontend",
-    "backend/api"
+    "backend/api",
+    "arduino"
   ],
   "devDependencies": {
     "concurrently": "^9.1.2"

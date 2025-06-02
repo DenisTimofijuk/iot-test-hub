@@ -31,10 +31,10 @@
 - [x] Add device identification (device_id)
 
 ### Node.js Serial Communication
-- [ ] Initialize Node.js project with TypeScript
-- [ ] Install `serialport` npm package
-- [ ] Set up TypeScript configuration
-- [ ] Create serial port connection handler
+- [x] Initialize Node.js project with TypeScript
+- [x] Install `serialport` npm package
+- [x] Set up TypeScript configuration
+- [x] Create serial port connection handler
 - [ ] Implement JSON data parsing from Arduino
 - [ ] Add buffer management for incomplete messages
 - [ ] Create connection monitoring and auto-reconnect
