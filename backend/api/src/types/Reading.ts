@@ -16,11 +16,13 @@ export type SystemSerial = {
     sensors_ok: boolean;
 };
 
-export type SerialOutput = {
-    device_id: string;
-    timestamp: number;
-    uptime: number;
-    dht22: Dht22Serial;
-    ccs811: Ccs811Serial;
-    system: SystemSerial;
-};
+
+export interface Reading {
+  _id?: string;
+  device_id: string;
+  timestamp: number; // Unix ms
+  uptime: number;
+  dht22: Dht22Serial;
+  ccs811: Ccs811Serial;
+  system: SystemSerial;
+}

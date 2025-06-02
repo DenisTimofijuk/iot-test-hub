@@ -7,6 +7,7 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+    "setup": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/setup.ts",
     "lint": "eslint 'src/**/*.ts'"
   },
   "author": "",
@@ -25,6 +26,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "joi": "^17.13.3",
     "mongodb": "^6.16.0",
     "pg": "^8.15.6"
   }

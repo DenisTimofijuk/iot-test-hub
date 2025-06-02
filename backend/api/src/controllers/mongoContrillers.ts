@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { database } from "../models/mongodb";
+import { initializeDatabase } from "../models/mongodb";
 import { ObjectId } from "mongodb";
 
 export const getAllDocuments = async (req: Request, res: Response) => {
@@ -8,6 +8,8 @@ export const getAllDocuments = async (req: Request, res: Response) => {
     const { limit = 50, skip = 0, sort } = req.query;
     const limitNum = parseInt(limit?.toString() ?? "50");
     const skipNum = parseInt(skip?.toString() ?? "0");
+
+    const database = await initializeDatabase();
 
     const coll = database.collection(collection);
     let query = coll.find({});
@@ -40,6 +42,7 @@ export const getAllDocuments = async (req: Request, res: Response) => {
 export const getDocumentByID = async (req: Request, res: Response) => {
   try {
     const { collection, id } = req.params;
+    const database = await initializeDatabase();
     const coll = database.collection(collection);
 
     const document = await coll.findOne({ _id: new ObjectId(id) });
@@ -73,7 +76,7 @@ export const createNewDocument = async (req: Request, res: Response) => {
 
     // Add timestamp
     document.createdAt = new Date();
-
+    const database = await initializeDatabase();
     const coll = database.collection(collection);
     const result = await coll.insertOne(document);
 
@@ -100,7 +103,7 @@ export const updateDocument = async (req: Request, res: Response) => {
 
     // Add update timestamp
     updates.updatedAt = new Date();
-
+    const database = await initializeDatabase();
     const coll = database.collection(collection);
     const result = await coll.updateOne(
       { _id: new ObjectId(id) },
@@ -132,6 +135,7 @@ export const updateDocument = async (req: Request, res: Response) => {
 export const deleteDocument = async (req: Request, res: Response) => {
   try {
     const { collection, id } = req.params;
+    const database = await initializeDatabase();
     const coll = database.collection(collection);
 
     const result = await coll.deleteOne({ _id: new ObjectId(id) });

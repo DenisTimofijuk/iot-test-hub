@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 
 // Routes
-app.use('/api/mongo', mongoRouter);
+app.use('/api/devices', mongoRouter);
 
 // Global error handler (should be after routes)
 app.use(errorHandler);

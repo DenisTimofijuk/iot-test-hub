@@ -49,9 +49,9 @@
 - [ ] Create troubleshooting guide
 
 **Phase 1 Completion Criteria:**
-- [ ] Arduino sends sensor data every 5 seconds
-- [ ] Node.js successfully receives and parses all data
-- [ ] System handles disconnection/reconnection gracefully
+- [x] Arduino sends sensor data every 5 seconds
+- [x] Node.js successfully receives and parses all data
+- [x] System handles disconnection/reconnection gracefully
 - [ ] All sensor readings are validated and logged
 
 ---
@@ -59,20 +59,20 @@
 ## 💾 Phase 2: Database Integration (Week 2)
 
 ### MongoDB Schema Design
-- [ ] Design `devices` collection schema
-- [ ] Design `readings` collection schema
-- [ ] Design `device_status` collection schema
-- [ ] Create TypeScript interfaces for all schemas
-- [ ] Set up database connection configuration
-- [ ] Implement connection pooling
+- [x] Design `devices` collection schema
+- [x] Design `readings` collection schema
+- [x] Design `device_status` collection schema
+- [x] Create TypeScript interfaces for all schemas
+- [x] Set up database connection configuration
+- [x] Implement connection pooling
 
 ### Database Operations
-- [ ] Install MongoDB driver and related packages
-- [ ] Create database connection module
-- [ ] Implement CRUD operations for devices
-- [ ] Implement CRUD operations for readings
-- [ ] Add data validation using Joi or similar
-- [ ] Create indexes for time-series queries
+- [x] Install MongoDB driver and related packages
+- [x] Create database connection module
+- [x] Implement CRUD operations for devices
+- [x] Implement CRUD operations for readings
+- [x] Add data validation using Joi or similar
+- [x] Create indexes for time-series queries
 - [ ] Implement query optimization for dashboards
 - [ ] Add database health monitoring
 
@@ -94,25 +94,25 @@
 ## 🌐 Phase 3: REST API Development (Week 3)
 
 ### API Structure
-- [ ] Set up Express.js with TypeScript
-- [ ] Create route structure and organization
-- [ ] Implement middleware for logging and errors
+- [x] Set up Express.js with TypeScript
+- [x] Create route structure and organization
+- [x] Implement middleware for logging and errors
 - [ ] Add request validation middleware
-- [ ] Set up CORS configuration
+- [x] Set up CORS configuration (proxy)
 - [ ] Implement rate limiting
 
 ### Core Endpoints
-- [ ] `GET /api/devices` - List all devices
-- [ ] `GET /api/devices/:id` - Get device details
-- [ ] `GET /api/devices/:id/readings` - Get sensor readings
-- [ ] `POST /api/devices/:id/readings` - Add sensor reading
-- [ ] `GET /api/devices/:id/status` - Get device status
-- [ ] `PUT /api/devices/:id` - Update device configuration
-- [ ] `DELETE /api/devices/:id` - Remove device
+- [x] `GET /api/devices` - List all devices
+- [x] `GET /api/devices/:id` - Get device details
+- [x] `GET /api/devices/:id/readings` - Get sensor readings
+- [x] `POST /api/devices/:id/readings` - Add sensor reading
+- [x] `GET /api/devices/:id/status` - Get device status
+- [x] `PUT /api/devices/:id` - Update device configuration
+- [x] `DELETE /api/devices/:id` - Remove device
 
 ### Real-time Features
 - [ ] Implement WebSocket server
-- [ ] Create real-time data broadcasting
+- [x] Create real-time data broadcasting
 - [ ] Add client connection management
 - [ ] Implement room-based updates (per device)
 - [ ] Add WebSocket authentication
@@ -134,12 +134,12 @@
 ## 🎨 Phase 4: React Dashboard (Week 4)
 
 ### Project Setup
-- [ ] Initialize Vite React TypeScript project
-- [ ] Set up ESLint and Prettier configuration
-- [ ] Install required packages (charts, websocket, etc.)
-- [ ] Create component structure
+- [x] Initialize Vite React TypeScript project
+- [x] Set up ESLint and Prettier configuration
+- [x] Install required packages (charts, websocket, etc.)
+- [x] Create component structure
 - [ ] Set up routing (React Router)
-- [ ] Configure environment variables
+- [x] Configure environment variables
 
 ### Core Components
 - [ ] Device status overview cards
