@@ -1,32 +1,29 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './css/App.css';
-import ModalForm from './components/ModalForm';
 import ItemList from './components/ItemList';
 import { ItemContext } from './components/ItemContext';
 import type { ItemContextType } from './types/ItemContext.type';
-import { addItem } from './util/fetchItems';
-import type { ItemType } from './types/Item.type';
-import useRequestHandler from './hooks/useRequestHandler';
+import type { Reading } from './types/ReadingsData';
+import { TemperatureChart } from './components/Chart';
 
 function App() {
-  const [items, setItems] = useState<ItemType[]>([]);
-  const dialog = useRef<HTMLDialogElement>(null);
+  const [items, setItems] = useState<Reading[]>([]);
 
-  const { isLoading, error, executeRequest } = useRequestHandler<ItemType>();
+  // const { isLoading, error, executeRequest } = useRequestHandler<Reading>();
 
-  async function handleAddItem(newItem: { name: string; }) {
-    const item = { name: newItem.name };
-    const result = await executeRequest(() => addItem(item));
+  // async function handleAddItem(newItem: { name: string; }) {
+  //   const item = { name: newItem.name };
+  //   const result = await executeRequest(() => addItem(item));
 
-    if (!result) {
-      return;
-    }
+  //   if (!result) {
+  //     return;
+  //   }
 
-    setItems((prevItems) => [...prevItems, result]);
-  }
+  //   setItems((prevItems) => [...prevItems, result]);
+  // }
 
   const ctxValue: ItemContextType = {
-    items,
+    data: items,
     setItems
   }
   return (
@@ -34,10 +31,11 @@ function App() {
       <h1>This is a monorepo template</h1>
       <p>It contains a frontend and a backend</p>
       <ItemContext value={ctxValue}>
+        <TemperatureChart/>
         <ItemList />
-        {error && <div className='error'>{error}</div>}
-        <button disabled={isLoading} onClick={() => dialog.current?.showModal()}>{isLoading ? 'Adding...' : 'Add new item'}</button>
-        <ModalForm dialogRef={dialog} onSubmit={handleAddItem} />
+        {/* {error && <div className='error'>{error}</div>} */}
+        {/* <button disabled={isLoading} onClick={() => dialog.current?.showModal()}>{isLoading ? 'Adding...' : 'Add new item'}</button> */}
+        {/* <ModalForm dialogRef={dialog} onSubmit={handleAddItem} /> */}
       </ItemContext>
     </>
   );

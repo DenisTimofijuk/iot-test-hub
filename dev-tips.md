@@ -3,6 +3,7 @@
 Run commands from the root directory:
 ```
 npm install pg --workspace=backend/api
+npm install recharts --workspace=frontend
 ```
 
 ## Development Mode

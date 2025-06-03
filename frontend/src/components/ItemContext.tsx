@@ -3,7 +3,7 @@ import type { ItemContextType } from '../types/ItemContext.type';
 
 
 export const ItemContext = createContext<ItemContextType>({
-    items: [],
+    data: [],
     setItems: () => { }
 });
 

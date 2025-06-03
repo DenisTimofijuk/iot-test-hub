@@ -1,6 +1,6 @@
-import type { ItemType } from "./Item.type";
+import type { Reading } from "./ReadingsData";
 
 export interface ItemContextType {
-    items: ItemType[];
-    setItems: (items: ItemType[] | ((prevItems: ItemType[]) => ItemType[])) => void;
+    data: Reading[];
+    setItems: (items: Reading[] | ((prevItems: Reading[]) => Reading[])) => void;
 }

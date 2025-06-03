@@ -1,18 +1,21 @@
 import { useEffect, useContext } from 'react';
-import { fetchItems } from '../util/fetchItems';
+import { fetchDataFromDB } from '../util/fetchItems';
 import { ItemContext } from './ItemContext';
 import { Item } from './Item';
 import useRequestHandler from '../hooks/useRequestHandler';
-import type { ItemType } from '../types/Item.type';
+import type { FetchedDataType, Reading } from '../types/ReadingsData';
 
 
 export function ItemList() {
   const itemCtx = useContext(ItemContext);
-  const { isLoading, error, executeRequest } = useRequestHandler<ItemType[]>();
+  const { isLoading, error, executeRequest } = useRequestHandler<Reading[]>();
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await executeRequest(fetchItems);
+      const result = await executeRequest(async () => {
+        const r = await fetchDataFromDB<FetchedDataType>('/api/devices/readings?limit=0');
+        return r.data;
+      });
       if (result) {
         itemCtx.setItems(result);
       }
@@ -31,12 +34,12 @@ export function ItemList() {
   return (
     <div>
       <h2>Items List</h2>
-      {itemCtx.items.length === 0 ? (
+      {itemCtx.data.length === 0 ? (
         <p>No items found</p>
       ) : (
         <ul>
-          {itemCtx.items.map((item) => (
-            <Item key={item.id} data={item} />
+          {itemCtx.data.map((item) => (
+            <Item key={item.timestamp} data={item} />
           ))}
         </ul>
       )}
