@@ -18,11 +18,12 @@ export default function ConnectionStatus () {
         // Handle socket connection events
         newSocket.on("connect", () => {
             console.log("Connected to server");
+            setConnectionStatus('Connected to the server and waiting for the device status.');
         });
 
         newSocket.on("disconnect", () => {
             console.log("Disconnected from server");
-            setConnectionStatus('disconnected.');
+            setConnectionStatus('Disconnected from the server. Unable to communicate with the device.');
         });
 
         // Cleanup on unmount
