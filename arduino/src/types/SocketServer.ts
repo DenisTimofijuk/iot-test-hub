@@ -1,0 +1,1 @@
+export type ConnectrionStatus = { status: string };

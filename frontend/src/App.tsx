@@ -5,6 +5,7 @@ import { ItemContext } from './components/ItemContext';
 import type { ItemContextType } from './types/ItemContext.type';
 import type { Reading } from './types/ReadingsData';
 import { TemperatureChart } from './components/Chart';
+import ConnectionStatus from './components/ConnectionStatus';
 
 function App() {
   const [items, setItems] = useState<Reading[]>([]);
@@ -31,6 +32,7 @@ function App() {
       <h1>This is a monorepo template</h1>
       <p>It contains a frontend and a backend</p>
       <ItemContext value={ctxValue}>
+        <ConnectionStatus />
         <TemperatureChart/>
         <ItemList />
         {/* {error && <div className='error'>{error}</div>} */}

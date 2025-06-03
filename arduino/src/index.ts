@@ -1,25 +1,40 @@
 import axios from "axios";
 import ESP8266Runner from "./ESP8266Runner";
 import { SerialOutput } from "./types/SerialOutput";
+import { io, setArduinoConnectionStatus } from "./socket-server/server";
+import { ConnectrionStatus } from "./types/SocketServer";
+
 
 async function main() {
     const runner = new ESP8266Runner("/dev/ttyUSB0"); // Adjust port as needed
 
     // Set up event listeners
     runner.on("connected", () => {
-        console.log("🟢 Device connected successfully");
+        const message = "🟢 Device connected successfully";
+        console.log(message);
+        io.emit('arduino-status', <ConnectrionStatus>{ status:  message});
+        setArduinoConnectionStatus(message);
     });
 
     runner.on("connectionFailed", (error) => {
-        console.log("🔴 Connection failed:", error.message);
+        const message = "🔴 Connection failed: " + error.message;
+        console.log(message);
+        io.emit('arduino-status', <ConnectrionStatus>{ status:  message});
+        setArduinoConnectionStatus(message);
     });
 
     runner.on("connectionLost", () => {
-        console.log("🟡 Connection lost, attempting to reconnect...");
+        const message = "🟡 Connection lost, attempting to reconnect...";
+        console.log(message);
+        io.emit('arduino-status', <ConnectrionStatus>{ status:  message});
+        setArduinoConnectionStatus(message);
     });
 
     runner.on("reconnectFailed", () => {
-        console.log("🔴 All reconnect attempts failed");
+        const message = "🔴 All reconnect attempts failed";
+        console.log(message);
+        io.emit('arduino-status', <ConnectrionStatus>{ status:  message});
+        setArduinoConnectionStatus(message);
     });
 
     runner.on("sensorData", async (data: SerialOutput) => {
@@ -38,7 +53,10 @@ async function main() {
     });
 
     runner.on("deviceError", (error) => {
+        const message = "⚠️  Device error.";
         console.log("⚠️  Device error:", error);
+        io.emit('arduino-status', <ConnectrionStatus>{ status:  message});
+        setArduinoConnectionStatus(message);
     });
 
     runner.on("rawMessage", (message) => {
@@ -54,7 +72,10 @@ async function main() {
     });
 
     runner.on("shutdown", () => {
-        console.log("👋 Graceful shutdown completed");
+        const message = "👋 Graceful shutdown completed";
+        console.log(message);
+        io.emit('arduino-status', <ConnectrionStatus>{ status:  message});
+        setArduinoConnectionStatus(message);
     });
 
     try {
