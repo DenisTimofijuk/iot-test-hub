@@ -40,12 +40,16 @@ async function main() {
     runner.on("sensorData", async (data: SerialOutput) => {
         console.log("📊 Sensor data received. Saving to Database...");
         try {
-            await axios.post("http://localhost:3000/api/devices/readings", {
+            const dataToSend = {
                 temperature: data.dht22.temperature,
                 humidity: data.dht22.humidity,
                 co2: data.ccs811.co2,
-                timestamp: new Date(data.timestamp || Date.now()).toISOString(),
-            });
+                timestamp: new Date().toISOString(),
+            };
+
+            io.emit('arduino-data', { data:  dataToSend});
+            await axios.post("http://localhost:3000/api/devices/readings", dataToSend);
+            
             console.log('Data successfully saved to database.')
         } catch (error) {
             console.error('Failed to save data to database.')
