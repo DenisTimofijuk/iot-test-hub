@@ -17,7 +17,7 @@ type ChartData = {
     humidity: number;
 };
 
-export function TemperatureChart() {
+export function Chart() {
     const loaderData = useLoaderData<FetchedDataType>();
     const [data, setData] = useState<ChartData[]>([]);
     useEffect(() => {
@@ -45,7 +45,3 @@ export function TemperatureChart() {
         </ResponsiveContainer>
     );
 }
-
-// TODO: implement websockets
-// dirplay data only for last 24h
-// add indication if device is connected

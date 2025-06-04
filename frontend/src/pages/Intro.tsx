@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 export function DataFlow() {
     return (
         <div className="max-w-4xl mx-auto px-6 py-8">
+            <h2 className="text-3xl font-bold text-center mb-12">
+                IoT Data Flow Architecture
+            </h2>
             {/* Hardware Component */}
             <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-6 mb-6 shadow-md">
                 <div className="flex items-center mb-4">

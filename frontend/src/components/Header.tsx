@@ -5,7 +5,7 @@ export function RootHeader() {
         <>
             <Link to="/">Home</Link>
             <h1 className="text-4xl font-bold text-center mb-12">
-                🌐 IoT Data Flow Architecture
+                🌐 IoT Environmental Monitoring & Testing System
             </h1>
         </>
     );

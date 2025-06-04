@@ -1,4 +1,4 @@
-import { TemperatureChart } from "../components/Chart";
+import { Chart } from "../components/Chart";
 import ConnectionStatus from "../components/ConnectionStatus";
 import type { FetchedDataType } from "../types/ReadingsData";
 import { fetchDataFromDB } from "../util/fetchItems";
@@ -7,7 +7,7 @@ export function Dashboard() {
     return (
         <>
             <ConnectionStatus />
-            <TemperatureChart />
+            <Chart />
         </>
     );
 }
@@ -15,9 +15,9 @@ export function Dashboard() {
 export async function dashboardDataLoader() {
     try {
         const result = await fetchDataFromDB<FetchedDataType>(
-            "/api/devices/readings?limit=0"
+            "/api/devices/readings?limit=100"
         );
-        return result.data;
+        return result;
     } catch (error) {
         throw {
             message:
@@ -25,3 +25,5 @@ export async function dashboardDataLoader() {
         };
     }
 }
+
+// TODO: fetch last 100 items from DB
