@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
     LineChart,
     Line,
@@ -8,7 +8,8 @@ import {
     XAxis,
     YAxis,
 } from "recharts";
-import { ItemContext } from "./ItemContext";
+import { useLoaderData } from "react-router-dom";
+import type { FetchedDataType } from "../types/ReadingsData";
 
 type ChartData = {
     time: string;
@@ -17,10 +18,10 @@ type ChartData = {
 };
 
 export function TemperatureChart() {
-    const itemCtx = useContext(ItemContext);
+    const loaderData = useLoaderData<FetchedDataType>();
     const [data, setData] = useState<ChartData[]>([]);
     useEffect(() => {
-        const parsedData: ChartData[] = itemCtx.data.map((value) => {
+        const parsedData: ChartData[] = loaderData.data.map((value) => {
             return {
                 humidity: value.humidity,
                 temperature: value.temperature,
@@ -29,7 +30,7 @@ export function TemperatureChart() {
         });
 
         setData(parsedData);
-    }, [itemCtx.data]);
+    }, [loaderData.data]);
 
     return (
         <ResponsiveContainer width="100%" height={300}>

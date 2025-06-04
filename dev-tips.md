@@ -4,6 +4,7 @@ Run commands from the root directory:
 ```
 npm install pg --workspace=backend/api
 npm install socket.io-client --workspace=frontend
+npm install lucide-react --workspace=frontend
 npm install socket.io --workspace=arduino
 ```
 
