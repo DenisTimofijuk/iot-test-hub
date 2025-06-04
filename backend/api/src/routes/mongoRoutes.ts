@@ -4,15 +4,16 @@ import {
     deleteDocument,
     getAllDocuments,
     getDocumentByID,
+    getLastDocuments,
     updateDocument,
 } from "../controllers/mongoContrillers";
 
 const mongoRouter = Router();
 
 // order matters in Express.js!
-// mongoRouter.get("/:collection/stats", getCollectionStats); // #1
+mongoRouter.get("/:collection/all", getAllDocuments);
 mongoRouter.get("/:collection/:id", getDocumentByID);
-mongoRouter.get("/:collection", getAllDocuments);
+mongoRouter.get("/:collection", getLastDocuments);
 mongoRouter.post("/:collection", createNewDocument);
 mongoRouter.put("/:collection/:id", updateDocument);
 mongoRouter.delete("/:collection/:id", deleteDocument);

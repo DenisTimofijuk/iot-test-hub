@@ -1,5 +1,5 @@
 import { AlertCircle, RefreshCw, Home, WifiOff } from "lucide-react";
-import { useRouteError } from "react-router-dom";
+import { useNavigate, useRouteError } from "react-router-dom";
 import { RootHeader } from "../components/Header";
 
 const ErrorPage = ({
@@ -7,9 +7,11 @@ const ErrorPage = ({
     message = "An unexpected error occurred in the environmental monitoring system.",
     errorCode = "500",
     showRetry = true,
-    onRetry = () => window.location.reload(),
-    onHome = () => (window.location.href = "/"),
+    onRetry = () => window.location.reload()
 }) => {
+    const navigate = useNavigate();
+    const onHome = () => navigate("/");
+
     const error: any = useRouteError();
     if (error.message) {
         message = error.message;

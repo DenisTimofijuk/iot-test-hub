@@ -25,5 +25,3 @@ export async function dashboardDataLoader() {
         };
     }
 }
-
-// TODO: fetch last 100 items from DB

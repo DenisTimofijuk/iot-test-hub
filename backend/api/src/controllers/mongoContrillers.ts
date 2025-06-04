@@ -89,6 +89,57 @@ export const getAllDocuments = async (req: Request, res: Response) => {
     }
 };
 
+export const getLastDocuments = async (req: Request, res: Response) => {
+    try {
+        const { collection } = req.params;
+        const { limit = 50, skip = 0, sort } = req.query;
+
+        const MAX_LIMIT = 10000;
+        let limitNum: number | undefined;
+
+        if (limit === "0" || limit === "-1") {
+            limitNum = undefined;
+        } else {
+            limitNum = Math.min(parseInt(limit?.toString() ?? "50"), MAX_LIMIT);
+        }
+
+        const skipNum = parseInt(skip?.toString() ?? "0");
+
+        const database = await initializeDatabase();
+        const coll = database.collection(collection);
+        let query = coll.find({});
+
+        // Apply sorting
+        if (sort && typeof sort === "string") {
+            query = query.sort(JSON.parse(sort));
+        } else {
+            // Default: get latest records first
+            query = query.sort({ createdAt: -1 });
+        }
+
+        query = query.skip(skipNum);
+        if (limitNum !== undefined) {
+            query = query.limit(limitNum);
+        }
+
+        const documents = await query.toArray();
+        const total = await coll.countDocuments({});
+
+        res.json({
+            success: true,
+            data: documents,
+            total,
+            count: documents.length,
+        });
+    } catch (error: any) {
+        console.error("Error fetching documents:", error);
+        res.status(500).json({
+            success: false,
+            error: error.message,
+        });
+    }
+};
+
 export const getDocumentByID = async (req: Request, res: Response) => {
     try {
         const { collection, id } = req.params;
