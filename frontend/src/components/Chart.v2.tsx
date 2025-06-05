@@ -32,6 +32,7 @@ export function ChartV2({ newData, maxDataPoints = 100 }: ChartProps) {
             temperature: value.temperature,
             time: formattedTime,
             originalTime: value.timestamp,
+            co2: value.co2
         };
     }, []);
 
@@ -75,17 +76,23 @@ export function ChartV2({ newData, maxDataPoints = 100 }: ChartProps) {
                 <div className="bg-white p-2 border border-gray-300 rounded shadow">
                     <p className="text-sm font-medium">{`Time: ${dataPoint.originalTime}`}</p>
                     <p className="text-sm" style={{ color: "#8884d8" }}>
-                        {`Temperature: ${
-                            payload.find(
-                                (p: any) => p.dataKey === "temperature"
-                            )?.value
-                        }°`}
+                        {`CO2: ${
+                            payload.find((p: any) => p.dataKey === "co2")
+                                ?.value
+                        }`}
                     </p>
                     <p className="text-sm" style={{ color: "#82ca9d" }}>
                         {`Humidity: ${
                             payload.find((p: any) => p.dataKey === "humidity")
                                 ?.value
                         }%`}
+                    </p>
+                    <p className="text-sm" style={{ color: "#ba3e3a" }}>
+                        {`Temperature: ${
+                            payload.find(
+                                (p: any) => p.dataKey === "temperature"
+                            )?.value
+                        }°`}
                     </p>
                 </div>
             );
@@ -112,8 +119,17 @@ export function ChartV2({ newData, maxDataPoints = 100 }: ChartProps) {
                 <Tooltip content={<CustomTooltip />} />
                 <Line
                     type="monotone"
-                    dataKey="temperature"
+                    dataKey="co2"
                     stroke="#8884d8"
+                    strokeWidth={2}
+                    dot={false}
+                    activeDot={{ r: 4 }}
+                    isAnimationActive={false} // Disable animation for real-time
+                />
+                <Line
+                    type="monotone"
+                    dataKey="temperature"
+                    stroke="#ba3e3a"
                     strokeWidth={2}
                     dot={false}
                     activeDot={{ r: 4 }}

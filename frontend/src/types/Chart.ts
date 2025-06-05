@@ -3,12 +3,14 @@ export type ChartData = {
     originalTime: string;
     temperature: number;
     humidity: number;
+    co2: number;
 };
 
 export type NewDataPoint = {
     timestamp: string;
     temperature: number;
     humidity: number;
+    co2: number;
 };
 
 export type ChartProps = {
