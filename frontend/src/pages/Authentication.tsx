@@ -1,10 +1,7 @@
 import { Lock, User, Eye, EyeOff, Wifi, Shield } from "lucide-react";
 import { useState, type ChangeEvent } from "react";
 import { StorageKeys } from "../types/LocalStorage";
-
-interface LocalStorageItems {
-    token: string;
-}
+import { useNavigate } from "react-router-dom";
 
 export default function Authentication() {
     const [isLogin, setIsLogin] = useState(true);
@@ -16,6 +13,7 @@ export default function Authentication() {
         username: "",
     });
     const [errorMessage, setErrorMessage] = useState("");
+    const navigate = useNavigate();
 
     function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
         setFormData({
@@ -26,8 +24,6 @@ export default function Authentication() {
 
     async function handleSubmit() {
         const defaultErrorMessage = "Failed to sign in.";
-
-        console.log("Form submitted:", formData);
         try {
             const response = await fetch("/api/auth/login", {
                 method: "POST",
@@ -44,8 +40,7 @@ export default function Authentication() {
             }
 
             localStorage.setItem(StorageKeys.Token, result.token);
-
-            // TODO: handle token and redirect
+            navigate("/home");
         } catch (error: any) {
             setErrorMessage(error.message || defaultErrorMessage);
         }

@@ -7,6 +7,7 @@ import ErrorPage from "./pages/Error";
 import Authentication from "./pages/Authentication";
 import { checkAuthentication } from "./util/auth";
 import { rootRedirectLoader } from "./util/rootRedirectLoader";
+import { logout } from "./pages/Logout";
 
 const router = createBrowserRouter([
     // This solution works, but it causes an annoying React error:
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
                 path: "auth",
                 element: <Authentication />,
             },
+            {
+                path: "logout",
+                loader: logout
+            }
         ],
     },
 ]);
