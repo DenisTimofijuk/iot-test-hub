@@ -1,35 +1,63 @@
 import { Lock, User, Eye, EyeOff, Wifi, Shield } from "lucide-react";
 import { useState, type ChangeEvent } from "react";
+import { StorageKeys } from "../types/LocalStorage";
+
+interface LocalStorageItems {
+    token: string;
+}
 
 export default function Authentication() {
     const [isLogin, setIsLogin] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-        confirmPassword: '',
-        username: ''
+        email: "",
+        password: "",
+        confirmPassword: "",
+        username: "",
     });
+    const [errorMessage, setErrorMessage] = useState("");
 
     function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
         });
     }
 
-    function handleSubmit() {
-        // Handle authentication logic here
-        console.log('Form submitted:', formData);
+    async function handleSubmit() {
+        const defaultErrorMessage = "Failed to sign in.";
+
+        console.log("Form submitted:", formData);
+        try {
+            const response = await fetch("/api/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.message || defaultErrorMessage);
+            }
+
+            localStorage.setItem(StorageKeys.Token, result.token);
+
+            // TODO: handle token and redirect
+        } catch (error: any) {
+            setErrorMessage(error.message || defaultErrorMessage);
+        }
     }
 
     function toggleAuthMode() {
         setIsLogin(!isLogin);
         setFormData({
-            email: '',
-            password: '',
-            confirmPassword: '',
-            username: ''
+            email: "",
+            password: "",
+            confirmPassword: "",
+            username: "",
         });
     }
 
@@ -153,13 +181,12 @@ export default function Authentication() {
                             </svg>
 
                             <h1 className="text-2xl font-bold text-white mb-2">
-                                {isLogin ? 'Welcome' : 'Create Account'}
+                                {isLogin ? "Welcome" : "Create Account"}
                             </h1>
                             <p className="text-slate-300 text-sm">
-                                {isLogin 
-                                    ? 'Sign in to your IoT monitoring dashboard' 
-                                    : 'Join our IoT environmental monitoring system'
-                                }
+                                {isLogin
+                                    ? "Sign in to your IoT monitoring dashboard"
+                                    : "Join our IoT environmental monitoring system"}
                             </p>
                         </div>
 
@@ -179,35 +206,59 @@ export default function Authentication() {
                             </div>
                         </div>
 
+                        {/* Error Message - Add this right after the Status Indicators div and before the Authentication Form */}
+                        {errorMessage && (
+                            <div className="mb-6 p-4 bg-red-500/20 border border-red-400/30 rounded-lg backdrop-blur-sm">
+                                <div className="flex items-center space-x-3">
+                                    <div className="flex-shrink-0">
+                                        <svg
+                                            className="w-5 h-5 text-red-400"
+                                            fill="currentColor"
+                                            viewBox="0 0 20 20"
+                                        >
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                    </div>
+                                    <div className="flex-1">
+                                        <p className="text-sm text-red-200 font-medium">
+                                            {errorMessage}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                         {/* Authentication Form */}
                         <div className="space-y-4">
-                            {/* Email Field */}
-                            <div className="relative">
-                                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
-                                <input
-                                    type="email"
-                                    name="email"
-                                    placeholder="Email address"
-                                    value={formData.email}
-                                    onChange={handleInputChange}
-                                    className="w-full bg-black/20 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-                                />
-                            </div>
-
-                            {/* Username Field (only for signup) */}
+                            {/* Email Field (only for signup)*/}
                             {!isLogin && (
                                 <div className="relative">
                                     <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
                                     <input
-                                        type="text"
-                                        name="username"
-                                        placeholder="Username"
-                                        value={formData.username}
+                                        type="email"
+                                        name="email"
+                                        placeholder="Email address"
+                                        value={formData.email}
                                         onChange={handleInputChange}
                                         className="w-full bg-black/20 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                                     />
                                 </div>
                             )}
+
+                            <div className="relative">
+                                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
+                                <input
+                                    type="text"
+                                    name="username"
+                                    placeholder="Username"
+                                    value={formData.username}
+                                    onChange={handleInputChange}
+                                    className="w-full bg-black/20 border border-white/20 rounded-lg pl-10 pr-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                                />
+                            </div>
 
                             {/* Password Field */}
                             <div className="relative">
@@ -222,10 +273,16 @@ export default function Authentication() {
                                 />
                                 <button
                                     type="button"
-                                    onClick={() => setShowPassword(!showPassword)}
+                                    onClick={() =>
+                                        setShowPassword(!showPassword)
+                                    }
                                     className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
                                 >
-                                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                                    {showPassword ? (
+                                        <EyeOff className="w-4 h-4" />
+                                    ) : (
+                                        <Eye className="w-4 h-4" />
+                                    )}
                                 </button>
                             </div>
 
@@ -262,19 +319,23 @@ export default function Authentication() {
                                 className="w-full bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 flex items-center justify-center space-x-2 group"
                             >
                                 <Lock className="w-4 h-4" />
-                                <span>{isLogin ? 'Sign In' : 'Create Account'}</span>
+                                <span>
+                                    {isLogin ? "Sign In" : "Create Account"}
+                                </span>
                             </button>
                         </div>
 
                         {/* Toggle Auth Mode */}
                         <div className="mt-6 text-center">
                             <p className="text-slate-300 text-sm">
-                                {isLogin ? "Don't have an account?" : 'Already have an account?'}
+                                {isLogin
+                                    ? "Don't have an account?"
+                                    : "Already have an account?"}
                                 <button
                                     onClick={toggleAuthMode}
                                     className="ml-2 text-blue-400 hover:text-blue-300 font-medium transition-colors"
                                 >
-                                    {isLogin ? 'Sign up' : 'Sign in'}
+                                    {isLogin ? "Sign up" : "Sign in"}
                                 </button>
                             </p>
                         </div>

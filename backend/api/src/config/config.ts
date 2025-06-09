@@ -1,16 +1,7 @@
 import dotenv from 'dotenv';
+import { Config } from '../types/Configuration';
 
 dotenv.config();
-
-interface Config {
-  appPort: number;
-  nodeEnv: string;
-  dbUser: string;
-  dbPassword: string;
-  dbName: string;
-  dbPort: number;
-  dbHost: string;
-}
 
 const config: Config = {
   appPort: Number(process.env.APP_PORT) || 3000,
@@ -19,7 +10,8 @@ const config: Config = {
   dbPassword: process.env.DB_PASSWORD || 'password',
   dbName: process.env.DB_NAME || 'database',
   dbPort: Number(process.env.DB_PORT) || 5432,
-  dbHost: process.env.DB_HOST || 'localhost'
+  dbHost: process.env.DB_HOST || 'localhost',
+  tokenKey: "secret_key"
 };
 
 export default config;

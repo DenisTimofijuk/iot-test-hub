@@ -7,8 +7,12 @@ import {
     getLastDocuments,
     updateDocument,
 } from "../controllers/mongoContrillers";
+import { authenticateToken } from "../middlewares/authMiddleware";
 
 const mongoRouter = Router();
+
+// Protect all routes by using authenticateToken
+mongoRouter.use(authenticateToken);
 
 // order matters in Express.js!
 mongoRouter.get("/:collection/all", getAllDocuments);

@@ -1,6 +1,12 @@
+import { getAuthToken } from "./auth";
 
 export async function fetchDataFromDB<T>(url: string) {
-  const response = await fetch(url);
+  const token = getAuthToken();
+  const response = await fetch(url, {
+    headers: {
+      'Authorization': 'Bearer ' + token
+    }
+  });
   if (!response.ok) {
     throw new Error('Failed to fetch items. Check if backend is running.');
   }
