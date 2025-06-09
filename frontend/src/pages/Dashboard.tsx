@@ -53,7 +53,10 @@ export function Dashboard() {
     return (
         <>
             <ConnectionStatus status={connectionStatus} />
-            <ChartV2 newData={sensorData && sensorData.data} maxDataPoints={DATA_LIMIT} />
+            <ChartV2
+                newData={sensorData && sensorData.data}
+                maxDataPoints={DATA_LIMIT}
+            />
         </>
     );
 }
@@ -66,8 +69,9 @@ export async function dashboardDataLoader() {
         return result;
     } catch (error) {
         throw {
-            message:
+            message: 
                 "Could not fetch data. Check if Backend services are up and running.",
+            status: 500,
         };
     }
 }

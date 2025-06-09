@@ -4,18 +4,39 @@ import { DataFlow } from "./pages/Intro";
 import { Dashboard, dashboardDataLoader } from "./pages/Dashboard";
 import { RootLayout } from "./pages/Root";
 import ErrorPage from "./pages/Error";
+import Authentication from "./pages/Authentication";
+import { checkAuthentication } from "./util/auth";
+import { rootRedirectLoader } from "./util/rootRedirectLoader";
 
 const router = createBrowserRouter([
+    // This solution works, but it causes an annoying React error:
+    {
+        path: "/",
+        loader: rootRedirectLoader, 
+        element: <div />,
+        errorElement: <ErrorPage />,
+    },
     {
         path: "/",
         element: <RootLayout />,
         errorElement: <ErrorPage />,
         children: [
-            { path: "", element: <DataFlow /> },
+            { 
+                path: "home", 
+                element: <DataFlow />, 
+                loader: checkAuthentication
+            },
             {
                 path: "dashboard",
                 element: <Dashboard />,
-                loader: dashboardDataLoader,
+                loader: ()=> {
+                    checkAuthentication();
+                    return dashboardDataLoader
+                },
+            },
+            {
+                path: "auth",
+                element: <Authentication />,
             },
         ],
     },

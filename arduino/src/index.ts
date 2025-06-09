@@ -119,3 +119,10 @@ main().catch(console.error);
  * CLEAR EVERYTHING INCLOODING TIMERS
  * ON RECONNECT INITIATE NEW SERIAL READING
  */
+
+/**
+ * recursive function:
+ * start readings, await to finish, then recursive call
+ * if reconnects - call same function (cancel and clear everything before that)
+ * global variables to track progress if needed.
+ */

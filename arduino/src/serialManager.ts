@@ -66,6 +66,8 @@ export class ESP8266SerialManager {
             }, 5000);
 
             const checkConnection = () => {
+                // TODO: this will continue running even after Connection timeout.
+                // TODO: fix this.
                 if (this.isConnected) {
                     clearTimeout(timeout);
                     resolve();

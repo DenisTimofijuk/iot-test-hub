@@ -5,16 +5,21 @@ import { RootHeader } from "../components/Header";
 const ErrorPage = ({
     title = "System Error",
     message = "An unexpected error occurred in the environmental monitoring system.",
-    errorCode = "500",
+    errorCode = 500,
     showRetry = true,
-    onRetry = () => window.location.reload()
+    onRetry = () => window.location.reload(),
 }) => {
     const navigate = useNavigate();
     const onHome = () => navigate("/");
 
     const error: any = useRouteError();
-    if (error.message) {
-        message = error.message;
+
+    if (error.message || error.data) {
+        message = error.message || error.data;
+    }
+
+    if (error.status) {
+        errorCode = error.status;
     }
 
     return (
