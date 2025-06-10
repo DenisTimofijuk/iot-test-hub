@@ -1,8 +1,9 @@
-import axios from "axios";
 import ESP8266Runner from "./ESP8266Runner";
 import { SerialOutput } from "./types/SerialOutput";
 import { io, setArduinoConnectionStatus } from "./socket-server/server";
 import { ConnectrionStatus } from "./types/SocketServer";
+import { sendData } from "./db/sendData";
+import { loginUser } from "./db/login";
 
 async function main() {
     const runner = new ESP8266Runner("/dev/ttyUSB0"); // Adjust port as needed
@@ -47,14 +48,11 @@ async function main() {
             };
 
             io.emit("arduino-data", { data: dataToSend });
-            await axios.post(
-                "http://localhost:3000/api/devices/readings",
-                dataToSend
-            );
+            await sendData(dataToSend);
 
             console.log("Data successfully saved to database.");
         } catch (error) {
-            console.error("Failed to save data to database.");
+            console.error("Failed to save data to database:", error);
         }
     });
 
@@ -85,6 +83,9 @@ async function main() {
     });
 
     try {
+        // login user to be able to save data to database
+        await loginUser();
+        
         // Attempt initial connection
         const connected = await runner.checkConnection();
 
