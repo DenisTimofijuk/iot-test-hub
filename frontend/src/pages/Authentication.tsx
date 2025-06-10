@@ -22,10 +22,19 @@ export default function Authentication() {
         });
     }
 
-    async function handleSubmit() {
+
+    function handleLogin(){
+        handleSubmit("/api/auth/login");
+    }
+
+    function handleRegister() {
+        handleSubmit("/api/auth/register");
+    }
+
+    async function handleSubmit(url: string) {
         const defaultErrorMessage = "Failed to sign in.";
         try {
-            const response = await fetch("/api/auth/login", {
+            const response = await fetch(url, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -310,7 +319,7 @@ export default function Authentication() {
 
                             {/* Submit Button */}
                             <button
-                                onClick={handleSubmit}
+                                onClick={isLogin ? handleLogin : handleRegister}
                                 className="w-full bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700 text-white font-medium py-3 px-6 rounded-lg transition-all duration-200 flex items-center justify-center space-x-2 group"
                             >
                                 <Lock className="w-4 h-4" />

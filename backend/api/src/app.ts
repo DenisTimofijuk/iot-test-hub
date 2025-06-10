@@ -1,5 +1,5 @@
 import express from 'express';
-import { errorHandler } from './middlewares/errorHandler';
+import { globalErrorHandler } from './middlewares/errorHandler';
 import mongoRouter from './routes/mongoRouter';
 import authRouter from './routes/authRouter';
 
@@ -11,6 +11,6 @@ app.use("/api/auth", authRouter);
 app.use('/api/devices', mongoRouter);
 
 // Global error handler (should be after routes)
-app.use(errorHandler);
+app.use(globalErrorHandler);
 
 export default app;
