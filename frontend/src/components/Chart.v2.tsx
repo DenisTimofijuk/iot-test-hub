@@ -13,7 +13,7 @@ import type { FetchedDataType } from "../types/ReadingsData";
 import type { ChartProps, ChartData, NewDataPoint } from "../types/Chart";
 
 export function ChartV2({ newData, maxDataPoints = 100 }: ChartProps) {
-    const loaderData = useLoaderData<FetchedDataType>();
+    const loaderData = useLoaderData<FetchedDataType | null>();
     const [data, setData] = useState<ChartData[]>([]);
     const dataRef = useRef<ChartData[]>([]);
 
@@ -53,13 +53,15 @@ export function ChartV2({ newData, maxDataPoints = 100 }: ChartProps) {
 
     // Initialize with loader data
     useEffect(() => {
+        if(!loaderData || !loaderData.data) return;
+
         const parsedData: ChartData[] = loaderData.data.map((value) =>
             formatDataPoint(value)
         );
         const trimmedData = parsedData.slice(-maxDataPoints);
         setData(trimmedData);
         dataRef.current = trimmedData;
-    }, [loaderData.data, formatDataPoint, maxDataPoints]);
+    }, [loaderData, formatDataPoint, maxDataPoints]);
 
     // Register socket callback
     useEffect(() => {

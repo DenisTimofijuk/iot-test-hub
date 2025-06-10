@@ -33,7 +33,7 @@ const router = createBrowserRouter([
                 element: <Dashboard />,
                 loader: ()=> {
                     checkAuthentication();
-                    return dashboardDataLoader
+                    return dashboardDataLoader();
                 },
             },
             {
