@@ -1,10 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import { verify } from "jsonwebtoken";
-import config from "../config/config";
+import { config } from "../config/config";
 
 const KEY = config.tokenKey;
 
-export function authenticateToken(req: Request, res: Response, next: NextFunction) {
+export function authenticateToken(
+    req: Request,
+    res: Response,
+    next: NextFunction
+) {
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1]; // Bearer <token>
 

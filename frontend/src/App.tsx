@@ -10,7 +10,8 @@ import { rootRedirectLoader } from "./util/rootRedirectLoader";
 import { logout } from "./pages/Logout";
 
 const router = createBrowserRouter([
-    // This solution works, but it causes an annoying React error:
+    // The solution below to redirecting unauthorized users works.
+    // However, it causes an annoying React error.
     {
         path: "/",
         loader: rootRedirectLoader, 

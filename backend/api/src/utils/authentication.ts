@@ -1,5 +1,5 @@
 import { sign } from "jsonwebtoken";
-import config from "../config/config";
+import { config } from "../config/config";
 
 const KEY = config.tokenKey;
 
