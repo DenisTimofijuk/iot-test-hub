@@ -7,10 +7,15 @@ export async function fetchDataFromDB<T>(url: string) {
       'Authorization': 'Bearer ' + token
     }
   });
-  if (!response.ok) {
-    throw new Error('Failed to fetch items. Check if backend is running.');
-  }
+  
   const data: T = await response.json();
+
+  if (!response.ok) {
+    throw {
+            message: (data as any).message || 'Failed to fetch items. Check if backend is running.',
+            status: response.status || 500,
+        };
+  }
 
   return data;
 }

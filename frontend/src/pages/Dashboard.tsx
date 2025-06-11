@@ -67,11 +67,11 @@ export async function dashboardDataLoader() {
             `/api/devices/readings?limit=${DATA_LIMIT}`
         );
         return result;
-    } catch (error) {
+    } catch (error: any) {
         throw {
-            message: 
+            message: error.message || 
                 "Could not fetch data. Check if Backend services are up and running.",
-            status: 500,
+            status: error.status || 500,
         };
     }
 }
