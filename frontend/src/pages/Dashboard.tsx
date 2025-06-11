@@ -13,7 +13,7 @@ const initStatus =
 
 export function Dashboard() {
     const [connectionStatus, setConnectionStatus] = useState(initStatus);
-    const [socket, setSocket] = useState<Socket | null>(null);
+    const [_, setSocket] = useState<Socket | null>(null);
     const [sensorData, setSensorData] = useState<SocketResponse | null>(null);
 
     useEffect(() => {
