@@ -5,7 +5,7 @@ import { TokenType } from "@iot-test-hub/shared";
 const KEY = config.tokenKey;
 
 export function createToken(userId: string): TokenType {
-    const token = sign({ userId }, KEY, { expiresIn: "1h" });
+    const token = sign({ userId }, KEY, { expiresIn: 330 });
     
     // Decode to get expiration info
     const decoded = decode(token) as any;

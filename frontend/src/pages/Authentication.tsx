@@ -1,8 +1,7 @@
 import { Lock, User, Eye, EyeOff, Wifi, Shield } from "lucide-react";
 import { useState, type ChangeEvent } from "react";
-import { StorageKeys } from "../types/LocalStorage";
-import { useNavigate } from "react-router-dom";
-import type { AuthFormData, AuthResponse } from "@iot-test-hub/shared";
+import type { AuthFormData } from "@iot-test-hub/shared";
+import { useAuthSubmit } from "../hooks/useAuthSubmit";
 
 export default function Authentication() {
     const [isLogin, setIsLogin] = useState(true);
@@ -13,8 +12,7 @@ export default function Authentication() {
         confirmPassword: "",
         username: "",
     });
-    const [errorMessage, setErrorMessage] = useState("");
-    const navigate = useNavigate();
+    const { errorMessage, submitHandler } = useAuthSubmit();
 
     function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
         setFormData({
@@ -24,40 +22,11 @@ export default function Authentication() {
     }
 
     function handleLogin() {
-        handleSubmit("/api/auth/login");
+        submitHandler("/api/auth/login", formData);
     }
 
     function handleRegister() {
-        handleSubmit("/api/auth/register");
-    }
-
-    async function handleSubmit(url: string) {
-        const defaultErrorMessage = "Failed to sign in.";
-        try {
-            const response = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
-            });
-
-            const result: AuthResponse = await response.json();
-
-            if (!response.ok) {
-                if ("message" in result) {
-                    throw new Error(result.message || defaultErrorMessage);
-                } else {
-                    throw new Error(defaultErrorMessage);
-                }
-            }
-            
-            localStorage.setItem(StorageKeys.Token, result.token.token);
-            localStorage.setItem(StorageKeys.expiresAt, result.token.expiresAt);
-            navigate("/home");
-        } catch (error: any) {
-            setErrorMessage(error.message || defaultErrorMessage);
-        }
+        submitHandler("/api/auth/register", formData);
     }
 
     function toggleAuthMode() {

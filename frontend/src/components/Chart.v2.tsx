@@ -9,8 +9,8 @@ import {
     YAxis,
 } from "recharts";
 import { useLoaderData } from "react-router-dom";
-import type { FetchedDataType } from "../types/ReadingsData";
-import type { ChartProps, ChartData, NewDataPoint } from "../types/Chart";
+import type { FetchedDataType } from "../types/ReadingsData.type";
+import type { ChartProps, ChartData, NewDataPoint } from "../types/Chart.type";
 
 export function ChartV2({ newData, maxDataPoints = 100 }: ChartProps) {
     const loaderData = useLoaderData<FetchedDataType | null>();

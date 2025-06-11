@@ -1,5 +1,5 @@
 import { redirect } from "react-router-dom";
-import { StorageKeys } from "../types/LocalStorage";
+import { StorageKeys } from "../types/LocalStorage.type";
 
 export function getTokenFromLocalStor() {
     const token = localStorage.getItem(StorageKeys.Token);
@@ -14,7 +14,7 @@ export function getTokenFromLocalStor() {
 export function checkAuthenticationLoader() {
     const tokenData = getTokenFromLocalStor();
 
-    if(!tokenData.token || tokenData.exDate <= new Date()){
+    if(!tokenData.token || tokenData.exDate <= new Date()){        
         return redirect('/auth');
     }
 

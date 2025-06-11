@@ -1,7 +1,7 @@
 import { ChartV2 } from "../components/Chart.v2";
 import ConnectionStatus from "../components/ConnectionStatus";
-import type { SocketResponse } from "../types/Chart";
-import type { FetchedDataType } from "../types/ReadingsData";
+import type { SocketResponse } from "../types/Chart.type";
+import type { FetchedDataType } from "../types/ReadingsData.type";
 import { fetchDataFromDB } from "../util/fetchItems";
 import { useState, useEffect } from "react";
 import { io, Socket } from "socket.io-client";

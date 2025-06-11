@@ -1,10 +1,10 @@
 import { redirect } from "react-router-dom";
-import { StorageKeys } from "../types/LocalStorage";
+import { StorageKeys } from "../types/LocalStorage.type";
 
 export function logout() {
-    console.log('LogoutAction')
 
     localStorage.removeItem(StorageKeys.Token);
-
+    localStorage.removeItem(StorageKeys.expiresAt);
+    
     return redirect('/');
 }
