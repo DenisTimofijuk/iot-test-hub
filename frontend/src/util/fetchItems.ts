@@ -1,10 +1,10 @@
-import { getAuthToken } from "./auth";
+import { getTokenFromLocalStor } from "./auth";
 
 export async function fetchDataFromDB<T>(url: string) {
-  const token = getAuthToken();
+  const token = getTokenFromLocalStor();
   const response = await fetch(url, {
     headers: {
-      'Authorization': 'Bearer ' + token
+      'Authorization': 'Bearer ' + token.token
     }
   });
   

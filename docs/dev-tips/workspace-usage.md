@@ -1,3 +1,5 @@
+# Working with workspaces
+
 ## Use workspace flags:
 
 Run commands from the root directory:
@@ -77,20 +79,7 @@ npm install
 
 The workspace flag approach you showed is clean and keeps you working from the root directory, which is often preferred in monorepo setups.
 
-
-=============================================
-
-No, that command alone would **not** be enough to properly remove a workspace. That command has a few issues:
-
-## Problems with that command:
-
-1. **Circular reference**: You're trying to uninstall `@backend/services` from within the `@backend/services` workspace itself, which doesn't make sense.
-
-2. **Only removes dependencies**: `npm uninstall` only removes packages from `dependencies`/`devDependencies` - it doesn't remove the workspace from your monorepo structure.
-
-3. **Workspace still exists**: The workspace directory and its `package.json` would still exist, and npm would still recognize it as a workspace.
-
-## What you'd actually need:
+## Remove workspace:
 
 ```bash
 # 1. Remove any references TO this workspace from OTHER workspaces
@@ -119,43 +108,3 @@ npm install
 ```
 
 This is actually simpler and more effective than trying to use `npm uninstall` for workspace removal, since workspace management is more about file structure than package dependencies.
-
-=============================================
-# Tree Command Usage
-
-You can use the `tree` command to get a nice tree representation of directory content. If you don't have it installed, you can usually install it via your package manager.
-
-## Basic Usage
-```bash
-tree /path/to/directory
-```
-
-## Limit Depth
-Use the `-L` option to limit the depth:
-```bash
-tree -L 2 /path/to/directory
-```
-This will show the directory tree up to level 2.
-
-## Alternative Using `find`
-If you don't have `tree` installed and can't install it, you can use `find` command as an alternative:
-```bash
-find /path/to/directory
-```
-
-With a specific depth:
-```bash
-find /path/to/directory -maxdepth 2
-```
-
-## Excluding Directories
-You can exclude the `node_modules` folder using the `-I` option:
-```bash
-tree -I node_modules /path/to/directory
-```
-This will ignore any directories or files that match the pattern `node_modules`.
-
-For multiple exclusions, separate patterns with a pipe `|`:
-```bash
-tree -I "node_modules|dist|build" /path/to/directory
-```

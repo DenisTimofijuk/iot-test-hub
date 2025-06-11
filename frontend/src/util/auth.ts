@@ -1,14 +1,20 @@
 import { redirect } from "react-router-dom";
 import { StorageKeys } from "../types/LocalStorage";
 
-export function getAuthToken() {
-    return localStorage.getItem(StorageKeys.Token);
+export function getTokenFromLocalStor() {
+    const token = localStorage.getItem(StorageKeys.Token);
+    const expirationDate = localStorage.getItem(StorageKeys.expiresAt);
+    const exDate = expirationDate && new Date(expirationDate) || new Date();
+    return {
+        token,
+        exDate
+    }
 }
 
-export function checkAuthentication() {
-    const token = getAuthToken();
+export function checkAuthenticationLoader() {
+    const tokenData = getTokenFromLocalStor();
 
-    if(!token){
+    if(!tokenData.token || tokenData.exDate <= new Date()){
         return redirect('/auth');
     }
 
@@ -16,8 +22,9 @@ export function checkAuthentication() {
 }
 
 export function isLoggedIn() {
-    const token = getAuthToken();
-    return !!token;
+    const tokenData = getTokenFromLocalStor();
+
+    return tokenData.token && tokenData.exDate > new Date()
 }
 
 /**

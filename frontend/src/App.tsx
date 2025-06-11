@@ -5,7 +5,7 @@ import { Dashboard, dashboardDataLoader } from "./pages/Dashboard";
 import { RootLayout } from "./pages/Root";
 import ErrorPage from "./pages/Error";
 import Authentication from "./pages/Authentication";
-import { checkAuthentication } from "./util/auth";
+import { checkAuthenticationLoader } from "./util/auth";
 import { rootRedirectLoader } from "./util/rootRedirectLoader";
 import { logout } from "./pages/Logout";
 
@@ -26,13 +26,13 @@ const router = createBrowserRouter([
             { 
                 path: "home", 
                 element: <DataFlow />, 
-                loader: checkAuthentication
+                loader: checkAuthenticationLoader
             },
             {
                 path: "dashboard",
                 element: <Dashboard />,
                 loader: ()=> {
-                    checkAuthentication();
+                    checkAuthenticationLoader();
                     return dashboardDataLoader();
                 },
             },

@@ -19,7 +19,8 @@
   "workspaces": [
     "frontend",
     "backend/api",
-    "arduino"
+    "arduino",
+    "shared"
   ],
   "devDependencies": {
     "concurrently": "^9.1.2"

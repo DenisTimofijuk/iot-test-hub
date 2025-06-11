@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { verify } from "jsonwebtoken";
 import { config } from "../config/config";
+import { TokenType } from "@iot-test-hub/shared";
 
 const KEY = config.tokenKey;
 
@@ -27,3 +28,23 @@ export function authenticateToken(
         next();
     });
 }
+
+
+export function getTokenInfo(token: string) {
+    try {
+        const decoded = verify(token, KEY) as any;
+        const expiresAt = decoded.exp * 1000;
+        const ttl = expiresAt - Date.now();
+        
+        return {
+            userId: decoded.userId,
+            expiresAt: new Date(expiresAt),
+            ttlMs: ttl,
+            isExpired: ttl <= 0
+        };
+    } catch (error) {
+        throw new Error('Invalid token');
+    }
+}
+
+// export type TokenInfo = ReturnType<typeof getTokenInfo>;

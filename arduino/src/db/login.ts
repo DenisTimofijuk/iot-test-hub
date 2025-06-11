@@ -1,3 +1,4 @@
+import { AuthResponse } from "@iot-test-hub/shared";
 import { config } from "../config/config";
 import axios from "axios";
 
@@ -32,7 +33,9 @@ async function attemptLogin(): Promise<string> {
         requestConfig
     );
 
-    return response.data.token;
+    const result: AuthResponse = response.data;
+
+    return result.token.token;
 }
 
 export async function loginUser(): Promise<void> {

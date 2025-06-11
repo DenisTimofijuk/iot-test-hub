@@ -2,11 +2,12 @@ import { Lock, User, Eye, EyeOff, Wifi, Shield } from "lucide-react";
 import { useState, type ChangeEvent } from "react";
 import { StorageKeys } from "../types/LocalStorage";
 import { useNavigate } from "react-router-dom";
+import type { AuthFormData, AuthResponse } from "@iot-test-hub/shared";
 
 export default function Authentication() {
     const [isLogin, setIsLogin] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
-    const [formData, setFormData] = useState({
+    const [formData, setFormData] = useState<AuthFormData>({
         email: "",
         password: "",
         confirmPassword: "",
@@ -22,8 +23,7 @@ export default function Authentication() {
         });
     }
 
-
-    function handleLogin(){
+    function handleLogin() {
         handleSubmit("/api/auth/login");
     }
 
@@ -42,13 +42,18 @@ export default function Authentication() {
                 body: JSON.stringify(formData),
             });
 
-            const result = await response.json();
+            const result: AuthResponse = await response.json();
 
             if (!response.ok) {
-                throw new Error(result.message || defaultErrorMessage);
+                if ("message" in result) {
+                    throw new Error(result.message || defaultErrorMessage);
+                } else {
+                    throw new Error(defaultErrorMessage);
+                }
             }
-
-            localStorage.setItem(StorageKeys.Token, result.token);
+            
+            localStorage.setItem(StorageKeys.Token, result.token.token);
+            localStorage.setItem(StorageKeys.expiresAt, result.token.expiresAt);
             navigate("/home");
         } catch (error: any) {
             setErrorMessage(error.message || defaultErrorMessage);

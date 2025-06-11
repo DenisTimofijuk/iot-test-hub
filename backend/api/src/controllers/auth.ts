@@ -4,10 +4,11 @@ import { createToken } from "../utils/authentication";
 import { initializeDatabase } from "../models/mongodb";
 import { User } from "../types/User";
 import { parseSchemaErrors } from "../utils/errorParser";
+import type { AuthFormData, AuthResponse } from "@iot-test-hub/shared";
 
 export async function registerHandler(req: Request, res: Response) {
     try {
-        const { username, email, password, confirmPassword } = req.body;
+        const { username, email, password, confirmPassword }: AuthFormData = req.body;
 
         // Basic validation
         if (!username || !email || !password || !confirmPassword) {
@@ -70,8 +71,7 @@ export async function registerHandler(req: Request, res: Response) {
         if (result.insertedId) {
             // Generate token for immediate login
             const token = createToken(result.insertedId);
-
-            res.status(201).json({
+            const response: AuthResponse = {
                 message: "User created successfully",
                 token,
                 user: {
@@ -79,7 +79,8 @@ export async function registerHandler(req: Request, res: Response) {
                     username: newUser.username,
                     email: newUser.email,
                 },
-            });
+            }
+            res.status(201).json(response);
         } else {
             res.status(500).json({ message: "Failed to create user" });
         }
@@ -93,7 +94,7 @@ export async function registerHandler(req: Request, res: Response) {
 
 export async function loginHandler(req: Request, res: Response) {
     try {
-        const { username, password } = req.body;
+        const { username, password }: AuthFormData = req.body;
 
         // Basic validation
         if (!username || !password) {
@@ -135,15 +136,15 @@ export async function loginHandler(req: Request, res: Response) {
 
         // Generate token
         const token = createToken(user._id);
-
-        res.json({
+        const response: AuthResponse = {
             token,
             user: {
                 id: user._id,
                 username: user.username,
                 email: user.email,
-            },
-        });
+            }
+        };
+        res.json(response);
     } catch (error) {
         console.error("Login error:", error);
         res.status(500).json({ message: "Internal server error" });

@@ -1,8 +1,8 @@
 import { redirect } from "react-router-dom";
-import { getAuthToken } from "./auth";
+import { getTokenFromLocalStor } from "./auth";
 
 export function rootRedirectLoader() {
-    const token = getAuthToken();
+    const token = getTokenFromLocalStor();
 
     if (token) {
         return redirect("/home");
