@@ -34,6 +34,7 @@ export function useAuthSubmit() {
             userCtx.setUser(formData);
             localStorage.setItem(StorageKeys.Token, result.token.token);
             localStorage.setItem(StorageKeys.expiresAt, result.token.expiresAt);
+            localStorage.setItem(StorageKeys.user, JSON.stringify(formData));
             navigate("/home");
         } catch (error: any) {
             setErrorMessage(error.message || defaultErrorMessage);

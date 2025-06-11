@@ -1,5 +1,6 @@
 import { redirect } from "react-router-dom";
 import { StorageKeys } from "../types/LocalStorage.type";
+import type { AuthFormData } from "@iot-test-hub/shared";
 
 export function getTokenFromLocalStor() {
     const token = localStorage.getItem(StorageKeys.Token);
@@ -9,6 +10,13 @@ export function getTokenFromLocalStor() {
         token,
         exDate
     }
+}
+
+export function getUserFromLocalStor() {
+    const userRawData = localStorage.getItem(StorageKeys.user);
+    const user: AuthFormData | {} = userRawData && JSON.parse(userRawData) || {};
+
+    return user;
 }
 
 export function checkAuthenticationLoader() {

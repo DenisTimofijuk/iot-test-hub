@@ -5,7 +5,7 @@ import { Dashboard, dashboardDataLoader } from "./pages/Dashboard";
 import { RootLayout } from "./pages/Root";
 import ErrorPage from "./pages/Error";
 import Authentication from "./pages/Authentication";
-import { checkAuthenticationLoader, getTokenFromLocalStor } from "./util/auth";
+import { checkAuthenticationLoader, getTokenFromLocalStor, getUserFromLocalStor } from "./util/auth";
 import { rootRedirectLoader } from "./util/rootRedirectLoader";
 import { logout } from "./pages/Logout";
 import { UserContext } from "./components/userContext";
@@ -57,6 +57,7 @@ function App() {
     const [token, setToken] = useState<TokenType>();
 
     useEffect(() => {
+        const user = getUserFromLocalStor();
         const tokenData = getTokenFromLocalStor();
         if (tokenData.token && tokenData.exDate) {
             setToken({
@@ -65,6 +66,9 @@ function App() {
                 ttlMs: 0,
                 ttlSeconds: 0,
             });
+        }
+        if("username" in user){
+            setUser(user);
         }
     }, []);
 

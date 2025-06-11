@@ -5,6 +5,7 @@ export function logout() {
 
     localStorage.removeItem(StorageKeys.Token);
     localStorage.removeItem(StorageKeys.expiresAt);
+    localStorage.removeItem(StorageKeys.user);
     
     return redirect('/');
 }

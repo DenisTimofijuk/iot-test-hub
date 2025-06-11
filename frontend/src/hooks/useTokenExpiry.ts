@@ -11,6 +11,8 @@ export function useTokenExpiry() {
     const { submitHandler } = useAuthSubmit();
 
     const logout = useCallback(() => {
+        console.log("useTokenExpiry > logout")
+        
         setShowExpiryModal(false);
         setToken({ expiresAt: "", token: "", ttlMs: 0, ttlSeconds: 0 });
         setUser({ confirmPassword: "", email: "", password: "", username: "" });
