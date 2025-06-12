@@ -83,7 +83,7 @@ npm run dev:arduino      # Arduino + Backend
 ### Service URLs
 - **Frontend**: http://localhost:5173
 - **Backend API**: http://localhost:3000
-- **Socket Server**: http://localhost:8080
+- **Socket Server**: http://localhost:4000
 - **MongoDB**: mongodb://localhost:27017
 
 ## 🔧 Development Commands

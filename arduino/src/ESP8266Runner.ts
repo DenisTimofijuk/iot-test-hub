@@ -140,7 +140,10 @@ export default class ESP8266Runner extends EventEmitter {
             if (message.startsWith('{') && message.endsWith('}')) {
                 try {
                     const jsonData: SerialOutput = JSON.parse(message);
-                    this.logInfo('Parsed JSON data:', jsonData);
+                    
+                    // commented, due to console polution:
+                    // this.logInfo('Parsed JSON data:', jsonData);
+
                     this.emit('sensorData', jsonData);
                     return;
                 } catch (jsonError) {

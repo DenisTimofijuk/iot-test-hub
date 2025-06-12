@@ -1,1 +1,1 @@
-export type ConnectrionStatus = { status: string };
+export type ConnectionStatus = { status: string };

@@ -8,10 +8,14 @@ export default defineConfig({
     server: {
         proxy: {
             "/api": {
-                target: "http://localhost:3000", // your backend port
+                target: "http://localhost:3000",
                 changeOrigin: true,
-                // optional: rewrite paths
-                // rewrite: (path) => path.replace(/^\/api/, '')
+            },
+            // Proxy Socket.IO requests
+            "^/socket\\.io/.*": {
+                target: "http://localhost:4000",
+                changeOrigin: true,
+                ws: true,
             },
         },
     },

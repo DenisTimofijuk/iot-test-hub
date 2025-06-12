@@ -4,9 +4,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "start": "node build/index.js",
+    "start": "node dist/index.js",
     "build": "tsc",
-    "test": "vitest"
+    "test": "vitest",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo"
   },
   "keywords": [],
   "author": "",

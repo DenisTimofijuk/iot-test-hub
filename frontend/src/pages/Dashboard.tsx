@@ -18,7 +18,8 @@ export function Dashboard() {
 
     useEffect(() => {
         // Initialize socket connection
-        const newSocket = io("http://localhost:4000");
+        const newSocket = io();
+        // const newSocket = io("http://localhost:4000");
         setSocket(newSocket);
 
         // Listen for Arduino status updates

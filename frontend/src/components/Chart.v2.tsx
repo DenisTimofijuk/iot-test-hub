@@ -71,7 +71,7 @@ export function ChartV2({ newData, maxDataPoints = 100 }: ChartProps) {
     }, [newData, addDataPoint]);
 
     // Custom tooltip to show original timestamp
-    const CustomTooltip = ({ active, payload, label }: any) => {
+    const CustomTooltip = ({ active, payload }: any) => {
         if (active && payload && payload.length) {
             const dataPoint = payload[0].payload;
             return (

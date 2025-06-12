@@ -1,7 +1,7 @@
-import { ConnectrionStatus } from "@/types/SocketServer";
 import express from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
+import { ConnectionStatus } from "../types/SocketServer";
 
 const app = express();
 const httpServer = createServer(app);
@@ -27,7 +27,7 @@ const PORT = process.env.SOCKET_PORT || 4000;
 io.on("connection", (socket) => {
     console.log("Client connected:", socket.id);
 
-    socket.emit("arduino-status", <ConnectrionStatus>{ status: deviceConnectionStatus });
+    socket.emit("arduino-status", <ConnectionStatus>{ status: deviceConnectionStatus });
 
     socket.on("disconnect", () => {
         console.log("Client disconnected:", socket.id);

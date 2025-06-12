@@ -1,18 +1,3 @@
-// {
-//   "compilerOptions": {
-//     "target": "ES2020",
-//     "module": "commonjs",
-//     "outDir": "./dist",
-//     "rootDir": "./src",
-//     "strict": true,
-//     "esModuleInterop": true,
-//     "skipLibCheck": true,
-//     "forceConsistentCasingInFileNames": true
-//   },
-//   "include": ["src/**/*", "../../shared/**/*"],
-//   "exclude": ["node_modules"]
-// }
-
 {
   "compilerOptions": {
     "target": "es2020",
@@ -26,7 +11,8 @@
     "resolveJsonModule": true,
     "declaration": true,
     "declarationMap": true,
-    "composite": true
+    "composite": true,
+    "removeComments": true
   },
   "include": ["src/**/*"],
   "references": [
