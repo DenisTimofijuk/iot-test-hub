@@ -123,13 +123,15 @@ export const getLastDocuments = async (req: Request, res: Response) => {
         }
 
         const documents = await query.toArray();
+        // Reverse the array so latest data appears last
+        const reversedDocuments = documents.reverse();
         const total = await coll.countDocuments({});
 
         res.json({
             success: true,
-            data: documents,
+            data: reversedDocuments,
             total,
-            count: documents.length,
+            count: reversedDocuments.length,
         });
     } catch (error: any) {
         console.error("Error fetching documents:", error);
